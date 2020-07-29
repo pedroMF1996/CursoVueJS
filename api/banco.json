@@ -1,19 +1,58 @@
 {
+  "professores": [
+    {
+      "id": 1,
+      "nome": "Pedro",
+      "sobrenome": "Martins Falleiros"
+    },
+    {
+      "id": 2,
+      "nome": "Paula",
+      "sobrenome": ""
+    },
+    {
+      "id": 3,
+      "nome": "Luna",
+      "sobrenome": ""
+    }
+  ],
   "alunos": [
     {
       "nome": "Almir",
       "sobrenome": "Gerjeas",
-      "id": 1
+      "id": 1,
+      "professor": {
+        "id": 3,
+        "nome": "Luna",
+        "sobrenome": ""
+      }
     },
     {
-      "nome": "Gogo",
-      "sobrenome": "PowerRangers",
-      "id": 2
+      "id": 2,
+      "nome": "Guilhermo",
+      "sobrenome": "Rodriguez",
+      "dataNasc": "01/02/1999",
+      "professor": "Paula"
     },
     {
-      "nome": "Um",
-      "sobrenome": "DoisTresDeOliveiraQuatro",
-      "id": 3
+      "id": 3,
+      "nome": "Maria",
+      "sobrenome": "José",
+      "dataNasc": "02/05/1698",
+      "professor": {
+        "id": 2,
+        "nome": "Paula",
+        "sobrenome": ""
+      }
+    },
+    {
+      "nome": "Alex",
+      "professor": {
+        "id": 1,
+        "nome": "Pedro",
+        "sobrenome": "Martins Falleiros"
+      },
+      "id": 4
     }
   ]
 }

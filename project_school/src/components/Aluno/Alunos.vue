@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Titulo text="Aluno"/>
-    <div>
+    <Titulo :text="prof_id !== undefined ? 'Professor: ' + professor.nome : 'Todos os alunos'" :btnVoltar="true"/>
+    <div v-if="prof_id !== undefined">
       <input 
         type="text" 
         placeholder="Nome do Aluno"
@@ -19,9 +19,14 @@
       </thead>
       <tbody v-if="alunos.length">
         <tr v-for="(aluno, index) in alunos" :key="index">
-          <td>{{aluno.id}}</td>
-          <td>{{aluno.nome}} {{aluno.sobrenome}}</td>
-          <td>
+          <td class="colPequena">{{aluno.id}}</td>
+          <router-link 
+            :to="`/aluno/update/${aluno.id}`" 
+            tag="td" 
+            style="cursor:pointer">
+            {{aluno.nome}} {{aluno.sobrenome}}
+          </router-link>
+          <td class="colPequena">
             <button class="btn btn_danger" @click="removerAluno(aluno.id)">Remover</button>
           </td>
         </tr>
@@ -51,12 +56,20 @@ export default {
           alunos: [
             {id:1, nome: 'Astolfo'}, 
             {id:2, nome: 'Marcus'}, 
-            {id:3, nome: 'Gariela'}]
+            {id:3, nome: 'Gariela'}],
+          prof_id: this.$route.params.prof_id,
+          professor: {}
       };
       
   },
   created() {
-    this.index();
+    if(this.prof_id){
+      this.carregarProfessores(this.prof_id);
+      this.carregaAlunosDoProfessor(this.prof_id);
+    }
+    else{
+      this.index();
+    }
   },
   methods: {
     index(){
@@ -64,12 +77,17 @@ export default {
       .then(res => res.json())
       .then(alunos => this.alunos = alunos)
     },
+    carregaAlunosDoProfessor(id){
+      this.$http.get('http://localhost:3000/alunos?professor.id=' + id)
+      .then(res => res.json())
+      .then(alunos => this.alunos = alunos)
+    },
     addAluno(){
       const _aluno = {
         nome: this.nome.split(' ')[0],
-        sobrenome: this.nome.split(' ')[1]
+        sobrenome: this.nome.split(' ')[1],
+        professor: this.professor
       }
-      // this.alunos.push(this.nome);
       
       this.$http.post('http://localhost:3000/alunos',_aluno)
       .then(res => res.json())
@@ -82,7 +100,16 @@ export default {
     removerAluno(id){
       this.$http.delete(`http://localhost:3000/alunos/${id}`)
       .then(this.index());
-    }
+    },
+
+    carregarProfessores(id){
+              this.$http.get('http://localhost:3000/professores/'+id)
+              .then( res => res.json())
+              .then(professor => {
+                this.professor = professor;
+              }
+            );
+          }
   },
 }
 </script>
@@ -95,10 +122,12 @@ export default {
     font-size: 1.3em;
     color: #687f7f;
     display: inline;
+    width: calc(100% - 195px);
   }
   .btn_input{
     border: 0px;
     padding: 20px;
+    width: 150px;
     font-size: 1.3;
     display: inline;
     background-color: rgb(116, 115, 115);

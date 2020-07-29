@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-    <Alunos/>
+    <Nav/>
+    <div class="margemPrincipal">
+      <router-view :key="$route.fullPath">
+      </router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import Alunos from './components/Aluno/Alunos.vue'
+import Nav from './components/_nav/Nav'
 
 export default {
   name: 'App',
   components: {
-    Alunos
+    Nav,
   }
 }
 </script>
 
 <style>
+#app{
+  width: 100%;
+}
+.margemPrincipal{
+  width: 50%;
+  margin: auto;
+}
 body{
   background-color: #eee;
   font-family: "Montserrat", sans-serif;
@@ -33,12 +44,14 @@ body, html {
   cursor: pointer;
   color: white;
   font-weight: bold;
+  font-size: 1.5em;
   border-radius: 5px;
   border-bottom: 3px solid black;
 }
 
 .btn_danger{
   background-color: #fa4430;
+  font-size: 0.8em !important;
 }
 
 .btn:hover{
@@ -70,5 +83,8 @@ table tr td{
 
 .colPequena{
   width: 5%;
+  text-align: right;
+  background-color: rgb(125, 217, 245);
+  font-weight: bold;
 }
 </style>
