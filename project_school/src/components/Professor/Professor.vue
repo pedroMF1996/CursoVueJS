@@ -22,7 +22,11 @@
         </tr>
       </tbody>
       <tfoot v-if="!professores.length">
-        Nenhum professor encontrado
+        <tr>
+          <td colspan="3" style="text-align: center" >
+            <h5>Nenhum professor encontrado</h5>
+          </td>
+        </tr>
       </tfoot>
      </table>
     </div>
@@ -42,7 +46,7 @@
             }
         },
         created() {
-          this.$http.get('http://localhost:3000/alunos')
+          this.$http.get('http://localhost:5000/api/aluno')
           .then(res => res.json())
           .then(alunos => {
               this.alunos = alunos;
@@ -63,7 +67,7 @@
             });
           },
           carregarProfessores(){
-              this.$http.get('http://localhost:3000/professores')
+              this.$http.get('http://localhost:5000/api/professor')
               .then( res => res.json())
               .then(professores => {
                 this.professores = professores;

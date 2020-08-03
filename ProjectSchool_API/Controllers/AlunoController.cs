@@ -72,9 +72,9 @@ namespace ProjectSchool_API.Controllers
 
                 return BadRequest();
             }
-            catch (System.Exception)
+            catch (System.Exception err)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados falhou "+err.Message+" "+err.InnerException);
             }
         }
 

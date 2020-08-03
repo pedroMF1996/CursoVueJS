@@ -36,7 +36,7 @@ namespace ProjectSchool_API.Controllers
             try
             {
                 var result = (await _repository.GetProfessorByIdAsync(ProfessorId, true));
-                return Ok();
+                return Ok(result);
             }
             catch (System.Exception)
             {

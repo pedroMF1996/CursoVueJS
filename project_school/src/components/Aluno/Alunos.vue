@@ -32,7 +32,11 @@
         </tr>
       </tbody>
       <tfoot v-if="!alunos.length">
-        Nenhum aluno encontrado
+        <tr>
+          <td colspan="3" style="text-align: center" >
+            <h5>Nenhum aluno encontrado</h5>
+          </td>
+        </tr>
       </tfoot>
      </table>
   </div>
@@ -53,10 +57,7 @@ export default {
       return {
           titulo: 'Aluno',
           nome: '',
-          alunos: [
-            {id:1, nome: 'Astolfo'}, 
-            {id:2, nome: 'Marcus'}, 
-            {id:3, nome: 'Gariela'}],
+          alunos: [],
           prof_id: this.$route.params.prof_id,
           professor: {}
       };
@@ -73,43 +74,47 @@ export default {
   },
   methods: {
     index(){
-      this.$http.get('http://localhost:3000/alunos')
+      this.$http.get('http://localhost:5000/api/aluno')
       .then(res => res.json())
       .then(alunos => this.alunos = alunos)
     },
+
     carregaAlunosDoProfessor(id){
-      this.$http.get('http://localhost:3000/alunos?professor.id=' + id)
+      this.$http.get('http://localhost:5000/api/aluno/ByProfessor/' + id)
       .then(res => res.json())
       .then(alunos => this.alunos = alunos)
     },
+
     addAluno(){
-      const _aluno = {
+      let _aluno = {
         nome: this.nome.split(' ')[0],
         sobrenome: this.nome.split(' ')[1],
-        professor: this.professor
-      }
+        dataNasc: "",
+        professorid: this.professor.id
+      };
       
-      this.$http.post('http://localhost:3000/alunos',_aluno)
+      this.$http.post('http://localhost:5000/api/aluno',_aluno)
       .then(res => res.json())
       .then(aluno => {
         this.alunos.push(aluno);
         this.nome = '';
-      })
+      });
     },
 
     removerAluno(id){
-      this.$http.delete(`http://localhost:3000/alunos/${id}`)
+      this.$http.delete(`http://localhost:5000/api/aluno/${id}`)
       .then(this.index());
     },
 
     carregarProfessores(id){
-              this.$http.get('http://localhost:3000/professores/'+id)
-              .then( res => res.json())
-              .then(professor => {
-                this.professor = professor;
-              }
-            );
-          }
+      this.$http.get('http://localhost:5000/api/professor/'+id)
+      .then( res => res.json())
+      .then(professor => {
+        this.professor = professor;
+      }
+      );
+      console.log(this.professor);
+    }
   },
 }
 </script>

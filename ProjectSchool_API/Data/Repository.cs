@@ -15,7 +15,14 @@ namespace ProjectSchool_API.Data
 
         public void Add<T>(T entity) where T : class
         {
-            _context.Add(entity);
+            try
+            {
+                _context.Add(entity);
+            }
+            catch (System.Exception err)
+            {
+                throw err;
+            }
         }
 
         public void Delete<T>(T entity) where T : class
